@@ -19,20 +19,25 @@ function generate_training_data(raw_data, sig, winSize, step, plot_range)
         line([plot_range/2 - winSize/2 plot_range/2 - winSize/2], [-1 1], 'color', 'r', 'linewidth', 2)
         line([plot_range/2 + winSize/2 plot_range/2 + winSize/2], [-1 1], 'color', 'r', 'linewidth', 2)
         hold off
-        cur_data = raw_data(plot_range/2 - winSize/2 : plot_range/2 + winSize/2);
+        cur_data = raw_data(i - winSize/2 + 1 : i + winSize/2 + 1);
         
-        key = input('press key');
-        switch key
-            
-            case 1 
-                location = filename + sig + "/" + count_sig + ".csv";
-                count_sig = count_sig + 1;
-            case 2
-                location = filename + 'noise' + '/' + count_noise + '.csv';
-                count_noise = count_noise + 1;
-            otherwise
-                disp('sample rejected');
+        try
+            key = input('press key');
+            switch key
+
+                case 1 
+                    location = filename + sig + "/" + count_sig + ".csv";
+                    count_sig = count_sig + 1;
+                    csvwrite(location, cur_data)
+                case 2
+                    location = filename + 'noise' + '/' + count_noise + '.csv';
+                    count_noise = count_noise + 1;
+                    csvwrite(location, cur_data)
+                otherwise
+                    disp('sample rejected');
+            end
+        catch
+            disp('sample rejected');
         end
-        csvwrite(location, cur_data)
     end
 end
