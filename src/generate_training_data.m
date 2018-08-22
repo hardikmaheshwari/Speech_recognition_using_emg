@@ -1,18 +1,18 @@
 function generate_training_data(raw_data, sig, winSize, step, plot_range)
     
     if(nargin < 5) 
-        plot_range = 100;
+        plot_range = 800;
         if(nargin < 4)
-            step = 10;
+            step = 50;
             if(nargin < 3)
-                winSize = 100;
+                winSize = 200;
             end
         end
     end
     
     filename = "../data/";
-    count_sig = 0;
-    count_noise = 0;
+    count_sig = size(dir(char(filename + sig + "/*.csv")) ,1);
+    count_noise = size(dir(char(filename + "noise" + "/*.csv")) ,1);
     for i = plot_range/2 : step : length(raw_data) - plot_range/2
         plot(1:plot_range, raw_data(i-plot_range/2 + 1 : i + plot_range/2))
         hold on
@@ -22,17 +22,18 @@ function generate_training_data(raw_data, sig, winSize, step, plot_range)
         cur_data = raw_data(i - winSize/2 + 1 : i + winSize/2 + 1);
         
         try
-            key = input('press key');
+            
+            key = input(char(string( round((i - plot_range/2)/(length(raw_data) - plot_range/2), 2)) + "%" ));
             switch key
 
                 case 1 
                     location = filename + sig + "/" + count_sig + ".csv";
                     count_sig = count_sig + 1;
-                    csvwrite(location, cur_data)
+%                     csvwrite(location, cur_data)
                 case 2
                     location = filename + 'noise' + '/' + count_noise + '.csv';
                     count_noise = count_noise + 1;
-                    csvwrite(location, cur_data)
+%                     csvwrite(location, cur_data)
                 otherwise
                     disp('sample rejected');
             end
