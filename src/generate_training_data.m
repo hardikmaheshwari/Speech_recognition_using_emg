@@ -23,17 +23,17 @@ function generate_training_data(raw_data, sig, winSize, step, plot_range)
         
         try
             
-            key = input(char(string( round((i - plot_range/2)/(length(raw_data) - plot_range/2), 2)) + "%" ));
+            key = input(char(string( round((i - plot_range/2)/(length(raw_data) - plot_range/2)*100, 2)) + "%" ));
             switch key
 
                 case 1 
                     location = filename + sig + "/" + count_sig + ".csv";
                     count_sig = count_sig + 1;
-%                     csvwrite(location, cur_data)
+                    csvwrite(location, cur_data)
                 case 2
                     location = filename + 'noise' + '/' + count_noise + '.csv';
                     count_noise = count_noise + 1;
-%                     csvwrite(location, cur_data)
+                    csvwrite(location, cur_data)
                 otherwise
                     disp('sample rejected');
             end
