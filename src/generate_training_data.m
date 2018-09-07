@@ -11,6 +11,10 @@ function generate_training_data(raw_data, sig, winSize, step, plot_range)
     end
     
     filename = "../data/";
+    if ~ exist(char(filename + sig), 'dir')
+        mkdir(char(filename + sig))
+    end
+    
     count_sig = size(dir(char(filename + sig + "/*.csv")) ,1);
     count_noise = size(dir(char(filename + "noise" + "/*.csv")) ,1);
     for i = plot_range/2 : step : length(raw_data) - plot_range/2
